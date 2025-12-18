@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .game-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #1f4fd8;
+    }
+
+    select, input, button {
+      margin-top: 10px;
+      padding: 8px;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #1f4fd8;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #163bb8;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .counter {
+      margin-top: 10px;
+      color: #555;
+    }
+
+    a {
+      display: block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #1f4fd8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="game-container">
+    <h1>Guess the Number</h1>
+
+    <p>Select difficulty:</p>
+    <select id="difficulty">
+      <option value="10">Easy (1–10)</option>
+      <option value="50">Medium (1–50)</option>
+      <option value="100">Hard (1–100)</option>
+    </select>
+
+    <button onclick="startGame()">Start New Game</button>
+
+    <input type="number" id="guessInput" placeholder="Enter your guess" disabled>
+    <button onclick="checkGuess()" disabled id="guessBtn">Submit Guess</button>
+
+    <div class="message" id="message"></div>
+    <div class="counter" id="counter"></div>
+
+    <a href="scratch.html">← Back to Scratch Page</a>
+  </div>
+
+  <script>
+    let secretNumber;
+    let attempts;
+    let maxNumber;
+
+    function startGame() {
+      maxNumber = document.getElementById("difficulty").value;
+      secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+      attempts = 0;
+
+      document.getElementById("message").textContent =
+        "Game started! Guess a number between 1 and " + maxNumber;
+
+      document.getElementById("counter").textContent = "";
+      document.getElementById("guessInput").disabled = false;
+      document.getElementById("guessBtn").disabled = false;
+      document.getElementById("guessInput").value = "";
+    }
+
+    function checkGuess() {
+      const guess = Number(document.getElementById("guessInput").value);
+      attempts++;
+
+      if (!guess) {
+        document.getElementById("message").textContent = "Please enter a number.";
+        return;
+      }
+
+      if (guess === secretNumber) {
+        document.getElementById("message").textContent =
+          "🎉 Correct! You guessed it in " + attempts + " tries.";
+        document.getElementById("guessInput").disabled = true;
+        document.getElementById("guessBtn").disabled = true;
+      } else if (guess < secretNumber) {
+        document.getElementById("message").textContent = "Too low! Try again.";
+      } else {
+        document.getElementById("message").textContent = "Too high! Try again.";
+      }
+
+      document.getElementById("counter").textContent =
+        "Attempts: " + attempts;
+    }
+  </script>
+
+</body>
+</html>
